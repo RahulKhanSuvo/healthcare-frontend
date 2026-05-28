@@ -1,5 +1,4 @@
-function SpecialtyManagementPage() {
-  return <div>SpecialtyManagementPage</div>;
-}
-
-export default SpecialtyManagementPage;
+const AdminDashboardPage = () => {
+  return <div>AdminDashboardPage</div>;
+};
+export default AdminDashboardPage;
