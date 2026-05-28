@@ -1,5 +1,5 @@
-function AdminDashBoardPage() {
-  return <div>AdminDashBoardPage</div>;
+function SpecialtyManagementPage() {
+  return <div>SpecialtyManagementPage</div>;
 }
 
-export default AdminDashBoardPage;
+export default SpecialtyManagementPage;
