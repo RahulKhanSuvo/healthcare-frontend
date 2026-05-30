@@ -15,7 +15,7 @@ export const loginAction = async (payload: ILogin): Promise<ILoginResponse | Api
     try {
 
 
-        const response = await httpClient.post<ILoginResponse>("/auth/login", payload)
+        const response = await httpClient.post<ILoginResponse>("/auth/login", parsedPayload.data)
         return response.data
 
     } catch (error) {
