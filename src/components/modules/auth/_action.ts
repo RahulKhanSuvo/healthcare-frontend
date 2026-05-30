@@ -1,3 +1,4 @@
+"use server"
 import { ApiErrorResponse } from './../../../types/api.type';
 import { httpClient } from "@/lib/axios/httpClient";
 import { ILoginResponse } from "@/types/auth.type";
@@ -16,6 +17,7 @@ export const loginAction = async (payload: ILogin): Promise<ILoginResponse | Api
 
 
         const response = await httpClient.post<ILoginResponse>("/auth/login", parsedPayload.data)
+
         return response.data
 
     } catch (error) {
