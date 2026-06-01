@@ -1,5 +1,5 @@
 "use server"
-import { ApiErrorResponse } from './../../../types/api.type';
+import { ApiErrorResponse } from '../../../../types/api.type';
 import { httpClient } from "@/lib/axios/httpClient";
 import { setTokenInCookies } from '@/lib/tokenUtil';
 import { ILoginResponse } from "@/types/auth.type";
