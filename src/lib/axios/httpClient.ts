@@ -33,7 +33,6 @@ const httpGet = async <T>(
         return response.data
 
     } catch (error) {
-        console.log(error)
         throw error
     }
 }
@@ -48,7 +47,6 @@ const httpPost = async <T>(endpoint: string, data: unknown, options?: ApiRequest
 
     } catch (error) {
 
-        console.log(error)
         throw error
     }
 }
@@ -62,7 +60,6 @@ const httpPut = async <T>(endpoint: string, options?: ApiRequestsOptions): Promi
 
     } catch (error) {
 
-        console.log(error)
         throw error
     }
 }
@@ -76,7 +73,6 @@ const httpPatch = async <T>(endpoint: string, options?: ApiRequestsOptions): Pro
 
     } catch (error) {
 
-        console.log(error)
         throw error
     }
 }
@@ -90,7 +86,6 @@ const httpDelete = async <T>(endpoint: string, options?: ApiRequestsOptions): Pr
 
     } catch (error) {
 
-        console.log(error)
         throw error
     }
 }

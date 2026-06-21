@@ -1,4 +1,5 @@
 "use server"
+import { AxiosError } from 'axios';
 import { ApiErrorResponse } from '../../../../types/api.type';
 import { httpClient } from "@/lib/axios/httpClient";
 import { setTokenInCookies } from '@/lib/tokenUtil';
@@ -23,7 +24,17 @@ export const loginAction = async (payload: ILogin): Promise<ILoginResponse | Api
         await setTokenInCookies("batter-auth.session_token", token)
         redirect("/dashboard")
     } catch (error) {
-        console.log(error)
+        console.log("error", error)
+
+        // Extract error message from axios error response
+        if (error instanceof AxiosError && error.response?.data) {
+            const errorData = error.response.data;
+            return {
+                success: false,
+                message: errorData.message || "Authentication failed",
+            }
+        }
+
         return {
             success: false,
             message: "Something went wrong during login.",
