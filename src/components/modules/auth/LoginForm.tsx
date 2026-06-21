@@ -10,9 +10,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import AppField from "@/components/shared/form/Appfiled";
+import { Button } from "@/components/ui/button";
+import { Eye } from "lucide-react";
 
 const LoginForm = () => {
   const queryClient = useQueryClient();
+  const [showpass];
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (payload: ILogin) => loginAction(payload),
   });
@@ -70,6 +73,11 @@ const LoginForm = () => {
                 label="Password"
                 type="password"
                 placeholder="Enter your password"
+                append={
+                  <Button onClick={}>
+                    <Eye />
+                  </Button>
+                }
               />
             )}
           </form.Field>

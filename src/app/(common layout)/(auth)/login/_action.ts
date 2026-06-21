@@ -16,8 +16,6 @@ export const loginAction = async (payload: ILogin): Promise<ILoginResponse | Api
         }
     }
     try {
-
-
         const response = await httpClient.post<ILoginResponse>("/auth/login", parsedPayload.data)
         const { accessToken, refreshToken, token } = response.data
         await setTokenInCookies("accessToken", accessToken)
