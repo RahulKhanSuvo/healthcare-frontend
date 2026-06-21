@@ -75,7 +75,7 @@ const LoginForm = () => {
               <AppField
                 field={field}
                 label="Password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 append={
                   <Button
