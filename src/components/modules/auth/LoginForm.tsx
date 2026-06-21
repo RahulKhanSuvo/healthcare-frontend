@@ -3,13 +3,7 @@ import { ILogin, loginSchema } from "@/zod/auth.validation";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form";
 import { loginAction } from "@/app/(common layout)/(auth)/login/_action";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import AppField from "@/components/shared/form/Appfiled";
 
 import AppSubmitButton from "@/components/shared/form/AppSubmitButton";
@@ -33,11 +27,10 @@ const LoginForm = () => {
     },
   });
   return (
-    <Card>
+    <Card className="max-w-md w-full">
       <CardHeader>
         <CardTitle>Welcome Back</CardTitle>
       </CardHeader>
-      <CardDescription>Please enter your</CardDescription>
       <CardContent>
         <form
           method="POST"
