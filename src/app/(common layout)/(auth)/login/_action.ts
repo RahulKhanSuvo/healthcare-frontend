@@ -25,6 +25,9 @@ export const loginAction = async (payload: ILogin): Promise<ILoginResponse | Api
         redirect("/dashboard")
     } catch (error) {
         console.log("error", error)
+        if (error && typeof error === "object" && "digest" in error && typeof error.digest === "string" && error.digest.startsWith("NEXT_REDIRECT")) {
+            throw error;
+        }
 
         // Extract error message from axios error response
         if (error instanceof AxiosError && error.response?.data) {
