@@ -22,3 +22,11 @@ export const patientProtectedRoutes: RouteConfig = {
   exact: ["/payment/success"],
   pattern: [/^\/dashboard/],
 };
+export const doctorProtectedRoutes: RouteConfig = {
+  exact: ["/appointments", "/patients", "/prescriptions", "/medical-records"],
+  pattern: [/^\/doctor\/dashboard/],
+};
+export const adminProtectedRoutes: RouteConfig = {
+  exact: [],
+  pattern: [/^\/admin\/dashboard/],
+};
