@@ -1,4 +1,10 @@
-export type UserRole = "SUPER_ADMIN" | "ADMIN" | "DOCTOR" | "PATIENT";
+export type UserRole =
+  | "SUPER_ADMIN"
+  | "ADMIN"
+  | "DOCTOR"
+  | "PATIENT"
+  | "COMMON"
+  | null;
 
 export const authRoutes = [
   "/login",
@@ -29,4 +35,25 @@ export const doctorProtectedRoutes: RouteConfig = {
 export const adminProtectedRoutes: RouteConfig = {
   exact: [],
   pattern: [/^\/admin\/dashboard/],
+};
+export const isRouteMatch = (pathname: string, routes: RouteConfig) => {
+  return (
+    routes.exact.includes(pathname) ||
+    routes.pattern.some((pattern: RegExp) => pattern.test(pathname))
+  );
+};
+export const routeOwner = (pathname: string): UserRole => {
+  if (isRouteMatch(pathname, doctorProtectedRoutes)) {
+    return "DOCTOR";
+  }
+  if (isRouteMatch(pathname, adminProtectedRoutes)) {
+    return "ADMIN";
+  }
+  if (isRouteMatch(pathname, patientProtectedRoutes)) {
+    return "PATIENT";
+  }
+  if (isRouteMatch(pathname, commonProtectedRoutes)) {
+    return "COMMON";
+  }
+  return null;
 };
