@@ -54,8 +54,21 @@ export function proxy(request: NextRequest) {
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
     }
+    // rule-4: if the router owner is COMMON, return the next response
     if (routerOwner === "COMMON") {
       return NextResponse.next();
+    }
+    // rule-5: if user try to access role base route, return the next response
+    if (
+      routerOwner === "ADMIN" ||
+      routerOwner === "DOCTOR" ||
+      routerOwner === "PATIENT"
+    ) {
+      if (userRole !== routerOwner) {
+        return NextResponse.redirect(
+          new URL(getDefaultDashboardRoute(userRole as UserRole), request.url),
+        );
+      }
     }
     return NextResponse.next();
   } catch (error) {
