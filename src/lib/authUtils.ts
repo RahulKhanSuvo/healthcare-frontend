@@ -37,10 +37,10 @@ export const adminProtectedRoutes: RouteConfig = {
   pattern: [/^\/admin\/dashboard/],
 };
 export const isRouteMatch = (pathname: string, routes: RouteConfig) => {
-  return (
-    routes.exact.includes(pathname) ||
-    routes.pattern.some((pattern: RegExp) => pattern.test(pathname))
-  );
+  if (isAuthRoute(pathname)) {
+    return true;
+  }
+  return routes.pattern.some((pattern: RegExp) => pattern.test(pathname));
 };
 export const routeOwner = (pathname: string): UserRole => {
   if (isRouteMatch(pathname, doctorProtectedRoutes)) {
