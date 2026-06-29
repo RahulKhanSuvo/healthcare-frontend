@@ -1,10 +1,4 @@
-export type UserRole =
-  | "SUPER_ADMIN"
-  | "ADMIN"
-  | "DOCTOR"
-  | "PATIENT"
-  | "COMMON"
-  | null;
+export type UserRole = "SUPER_ADMIN" | "ADMIN" | "DOCTOR" | "PATIENT";
 
 export const authRoutes = [
   "/login",
@@ -37,12 +31,14 @@ export const adminProtectedRoutes: RouteConfig = {
   pattern: [/^\/admin\/dashboard/],
 };
 export const isRouteMatch = (pathname: string, routes: RouteConfig) => {
-  if (isAuthRoute(pathname)) {
+  if (routes.exact.includes(pathname)) {
     return true;
   }
   return routes.pattern.some((pattern: RegExp) => pattern.test(pathname));
 };
-export const routeOwner = (pathname: string): UserRole => {
+export const getRouteOwner = (
+  pathname: string,
+): "SUPER_ADMIN" | "ADMIN" | "DOCTOR" | "PATIENT" | "COMMON" | null => {
   if (isRouteMatch(pathname, doctorProtectedRoutes)) {
     return "DOCTOR";
   }
@@ -57,15 +53,16 @@ export const routeOwner = (pathname: string): UserRole => {
   }
   return null;
 };
-export const getDefaultDashboardRoute = (role: UserRole) => {
-  switch (role) {
-    case "DOCTOR":
-      return "/doctor/dashboard";
-    case "ADMIN":
-      return "/admin/dashboard";
-    case "PATIENT":
-      return "/dashboard";  
-    default:
-      return "/";
+export const getDefaultDashboardRoute = (role: UserRole | null) => {
+  if (role === "ADMIN" || role === "SUPER_ADMIN") {
+    return "/admin/dashboard";
   }
+  if (role === "DOCTOR") {
+    return "/doctor/dashboard";
+  }
+  if (role === "PATIENT") {
+    return "/dashboard";
+  }
+
+  return "/";
 };
