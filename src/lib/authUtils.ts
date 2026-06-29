@@ -57,3 +57,15 @@ export const routeOwner = (pathname: string): UserRole => {
   }
   return null;
 };
+export const getDefaultDashboardRoute = (role: UserRole) => {
+  switch (role) {
+    case "DOCTOR":
+      return "/doctor/dashboard";
+    case "ADMIN":
+      return "/admin/dashboard";
+    case "PATIENT":
+      return "/dashboard";  
+    default:
+      return "/";
+  }
+};
