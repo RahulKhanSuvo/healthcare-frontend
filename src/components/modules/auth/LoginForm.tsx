@@ -13,11 +13,11 @@ import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
-const LoginForm = () => {
+const LoginForm = ({ redirectPath }: { redirectPath: string }) => {
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const { mutateAsync } = useMutation({
-    mutationFn: (payload: ILogin) => loginAction(payload),
+    mutationFn: (payload: ILogin) => loginAction(payload, redirectPath),
   });
   const form = useForm({
     defaultValues: {

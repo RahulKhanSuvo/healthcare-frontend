@@ -21,10 +21,10 @@ export function proxy(request: NextRequest) {
         )
       : { success: false, data: null };
 
-    const verifyAccessToken = verifyResult.data as
-      | (JwtPayload & { role?: string })
+    const verifyAccessToken = verifyResult?.data as
+      | (JwtPayload & { role?: string; id?: string; email?: string })
       | null;
-    const isAccessTokenValid = verifyResult.success;
+    const isAccessTokenValid = verifyResult?.success || false;
 
     let userRole: UserRole | null = null;
     if (isAccessTokenValid && verifyAccessToken) {

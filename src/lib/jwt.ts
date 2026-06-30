@@ -2,6 +2,8 @@
 import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
 interface CustomJwtPayload extends JwtPayload {
   role: string;
+  id: string;
+  email: string;
 }
 
 const createToken = (

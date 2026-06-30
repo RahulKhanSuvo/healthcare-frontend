@@ -66,3 +66,15 @@ export const getDefaultDashboardRoute = (role: UserRole | null) => {
 
   return "/";
 };
+export const isValidRedirectForRole = (
+  role: UserRole,
+  redirectPath: string,
+) => {
+  const routeOwner = getRouteOwner(redirectPath);
+  if (routeOwner === null || routeOwner === "COMMON") return true;
+  const unifiedRole = role === "SUPER_ADMIN" ? "ADMIN" : role;
+  if (unifiedRole === routeOwner) {
+    return true;
+  }
+  return false;
+};
