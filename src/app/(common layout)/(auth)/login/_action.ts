@@ -47,7 +47,6 @@ export const loginAction = async (
     );
     const { accessToken, refreshToken, token, data } = response.data;
     const user = data.user;
-    console.log("Extracted user:", user);
 
     if (!user) {
       throw new Error("User data missing in login response");
@@ -62,48 +61,16 @@ export const loginAction = async (
     } else if (!needPasswordChange) {
       redirect(`/rest-password?email=${email}`);
     } else {
-      const targetPath =
-        redirectPath && isValidRedirectForRole(role as UserRole, redirectPath)
-          ? redirectPath
-          : getDefaultDashboardRoute(role as UserRole);
-      console.log(targetPath);
-      // redirect(targetPath);
+      // Redirect to the default dashboard route based on the user's role
+      //
+      console.log("first");
     }
   } catch (error) {
-    // Handle Next.js redirect errors
-    if (
-      error &&
-      typeof error === "object" &&
-      "digest" in error &&
-      typeof error.digest === "string" &&
-      error.digest.startsWith("NEXT_REDIRECT")
-    ) {
-      throw error;
-    }
+    console.log(error);
 
-    // Handle API errors
-    if (error instanceof AxiosError && error.response?.data) {
-      const errorData = error.response.data;
-      return {
-        success: false,
-        message: errorData.message || "Authentication failed",
-      };
-    }
-
-    // Handle other errors
-    console.error(
-      "Login error:",
-      error instanceof Error ? error.message : "Unknown error",
-    );
     return {
       success: false,
       message: "Something went wrong during login.",
     };
   }
-
-  // Failsafe for TypeScript analysis
-  return {
-    success: false,
-    message: "An unexpected error occurred.",
-  };
 };
