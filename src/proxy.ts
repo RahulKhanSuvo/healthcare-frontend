@@ -7,7 +7,7 @@ import {
   UserRole,
 } from "./lib/authUtils";
 import { JwtPayload } from "jsonwebtoken";
-import { getNewRefreshToken } from "./services/auth.service";
+import { getNewRefreshToken, getUserInfo } from "./services/auth.service";
 import { isTokenExpiringSoon } from "./lib/tokenUtil";
 async function refreshAccessTokenMiddleware(
   refreshToken: string,
@@ -87,9 +87,30 @@ export async function proxy(request: NextRequest) {
         new URL(getDefaultDashboardRoute(userRole), request.url),
       );
     }
+
     if (pathname === "/rest-password") {
+      // case1: if the user needs to reset their password
       const email = request.nextUrl.searchParams.get("email");
+      if (accessToken && email) {
+        const useInfo = await getUserInfo();
+        if (useInfo.needsPasswordChange && useInfo.email === email) {
+          return NextResponse.next();
+        } else {
+          return NextResponse.redirect(
+            new URL(getDefaultDashboardRoute(userRole), request.url),
+          );
+        }
+      }
+      // case2: if the user coming from the forget password route
+      if (email) {
+        return NextResponse.next();
+      }
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
     }
+    // case if the user coming from the reset password route needs to change their password
+
     if (routerOwner === null) {
       // rule-2: if the router owner is null, return the next response
       return NextResponse.next();
