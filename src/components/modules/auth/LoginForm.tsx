@@ -13,7 +13,7 @@ import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
-const LoginForm = ({ redirectPath }: { redirectPath: string }) => {
+const LoginForm = ({ redirectPath }: { redirectPath?: string }) => {
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const { mutateAsync } = useMutation({

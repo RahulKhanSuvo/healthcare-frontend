@@ -4,7 +4,7 @@ interface LoginParams {
 }
 export default async function LoginPage({ searchParams }: LoginParams) {
   const params = await searchParams;
-  const redirectPath = params.rediract || "/";
+  const redirectPath = params.rediract;
   return (
     <div className="flex justify-center items-center">
       <LoginForm redirectPath={redirectPath} />
