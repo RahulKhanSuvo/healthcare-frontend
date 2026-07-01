@@ -124,6 +124,7 @@ export async function proxy(request: NextRequest) {
 
     if (accessToken) {
       const useInfo = await getUserInfo();
+      console.log("useInfo", useInfo);
       // email verification scenario
       if (useInfo.emailVerified === false) {
         if (pathname !== "/verify-email") {

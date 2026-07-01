@@ -39,6 +39,8 @@ export async function getUserInfo() {
   try {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("accessToken")?.value;
+    const sessionToken = cookieStore.get("batter-auth.session_token")?.value;
+    console.log("accessToken", accessToken, "sessionToken", sessionToken);
     if (!accessToken) {
       return null;
     }
@@ -46,7 +48,7 @@ export async function getUserInfo() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        cookie: `accessToken=${accessToken}`,
+        Cookie: `accessToken=${accessToken}; better-auth.session_token=${sessionToken}`,
       },
     });
     if (!res.ok) {

@@ -52,22 +52,16 @@ export const loginAction = async (
       throw new Error("User data missing in login response");
     }
 
-    const { role, emailVerified, needPasswordChange, email } = user;
+    const { role } = user;
 
     // Set all tokens in cookies
     await setAuthTokens(accessToken, refreshToken, token);
-    if (!emailVerified) {
-      redirect("/verify-email");
-    } else if (!needPasswordChange) {
-      redirect(`/rest-password?email=${email}`);
-    } else {
-      const targetPath =
-        redirectPath && isValidRedirectForRole(redirectPath, role as UserRole)
-          ? redirectPath
-          : getDefaultDashboardRoute(role as UserRole);
+    const targetPath =
+      redirectPath && isValidRedirectForRole(redirectPath, role as UserRole)
+        ? redirectPath
+        : getDefaultDashboardRoute(role as UserRole);
 
-      redirect(targetPath);
-    }
+    redirect(targetPath);
   } catch (error: any) {
     console.log(error, "error");
     if (
