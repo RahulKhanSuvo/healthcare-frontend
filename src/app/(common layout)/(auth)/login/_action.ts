@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
-import { AxiosError } from "axios";
 import { ApiErrorResponse } from "../../../../types/api.type";
 import { httpClient } from "@/lib/axios/httpClient";
 import { setTokenInCookies } from "@/lib/tokenUtil";
