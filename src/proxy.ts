@@ -121,6 +121,26 @@ export async function proxy(request: NextRequest) {
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
     }
+    // need to change password scenario
+    if (accessToken) {
+      const useInfo = await getUserInfo();
+      if (useInfo.needPasswordChange) {
+        if (pathname !== "/reset-password") {
+          const resetPasswordUrl = new URL("/reset-password", request.url);
+          return NextResponse.redirect(resetPasswordUrl);
+        }
+        return NextResponse.next();
+      }
+      if (
+        useInfo &&
+        !useInfo.needPasswordChange &&
+        pathname === "/reset-password"
+      ) {
+        return NextResponse.redirect(
+          new URL(getDefaultDashboardRoute(userRole as UserRole), request.url),
+        );
+      }
+    }
     // rule-4: if the router owner is COMMON, return the next response
     if (routerOwner === "COMMON") {
       return NextResponse.next();
