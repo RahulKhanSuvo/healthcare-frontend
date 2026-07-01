@@ -27,7 +27,6 @@ export const setTokenInCookies = async (
   if (name !== "batter-auth.session_token") {
     maxAgeSeconds = getTokenSecondRemaining(token);
   }
-
   await setCookie(name, token, maxAgeSeconds ? maxAgeSeconds : fallback);
 };
 
@@ -37,4 +36,8 @@ export async function isTokenExpiringSoon(
 ): Promise<boolean> {
   const remainingSecond = getTokenSecondRemaining(token);
   return remainingSecond > 0 && remainingSecond <= thresholdSeconds;
+}
+
+export async function isTokenExpired(token: string): Promise<boolean> {
+  return getTokenSecondRemaining(token) === 0;
 }
