@@ -40,7 +40,6 @@ export async function getUserInfo() {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("accessToken")?.value;
     const sessionToken = cookieStore.get("batter-auth.session_token")?.value;
-    console.log("accessToken", accessToken, "sessionToken", sessionToken);
     if (!accessToken) {
       return null;
     }
