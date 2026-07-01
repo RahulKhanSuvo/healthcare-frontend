@@ -87,8 +87,11 @@ export async function proxy(request: NextRequest) {
         new URL(getDefaultDashboardRoute(userRole), request.url),
       );
     }
-    // rule-2: if the router owner is null, return the next response
+    if (pathname === "/rest-password") {
+      const email = request.nextUrl.searchParams.get("email");
+    }
     if (routerOwner === null) {
+      // rule-2: if the router owner is null, return the next response
       return NextResponse.next();
     }
     // // rule-3: if user not login, and try to access the router owner, return the next response
