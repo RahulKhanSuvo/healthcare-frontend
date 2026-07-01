@@ -4,7 +4,9 @@ import { setTokenInCookies } from "@/lib/tokenUtil";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 if (!BASE_URL) throw new Error("NEXT_PUBLIC_API_BASE_URL is not defined");
-export async function refreshToken(refreshToken: string): Promise<boolean> {
+export async function getNewRefreshToken(
+  refreshToken: string,
+): Promise<boolean> {
   try {
     const res = await fetch(`${BASE_URL}/auth/refresh`, {
       method: "POST",

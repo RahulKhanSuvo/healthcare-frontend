@@ -7,8 +7,23 @@ import {
   UserRole,
 } from "./lib/authUtils";
 import { JwtPayload } from "jsonwebtoken";
-
-export function proxy(request: NextRequest) {
+import { getNewRefreshToken } from "./services/auth.service";
+import { isTokenExpiringSoon } from "./lib/tokenUtil";
+async function refreshAccessTokenMiddleware(
+  refreshToken: string,
+): Promise<boolean> {
+  try {
+    const refreshedAccessToken = await getNewRefreshToken(refreshToken);
+    if (refreshedAccessToken) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+export async function proxy(request: NextRequest) {
   try {
     const { pathname } = request.nextUrl;
     const accessToken = request.cookies.get("accessToken")?.value;
@@ -38,6 +53,34 @@ export function proxy(request: NextRequest) {
     userRole = unifiedSuperAdminRole;
     const isAuth = isAuthRoute(pathname);
     console.log("isAuth", isAuth);
+    if (
+      isAccessTokenValid &&
+      refreshToken &&
+      accessToken &&
+      (await isTokenExpiringSoon(accessToken))
+    ) {
+      const requestHeaders = new Headers(request.headers);
+      const response = NextResponse.next({
+        request: {
+          headers: requestHeaders,
+        },
+      });
+      try {
+        const refresh = await refreshAccessTokenMiddleware(refreshToken);
+        if (refresh) {
+          requestHeaders.set("x-token-refreshed", "1");
+        }
+        return NextResponse.next({
+          request: {
+            headers: requestHeaders,
+          },
+          headers: response.headers,
+        });
+      } catch (error) {
+        console.error("Error: error message", error);
+      }
+      return response;
+    }
     // rule-1: if the user is authenticated, redirect to the default dashboard route
     if (isAuth && isAccessTokenValid) {
       return NextResponse.redirect(
