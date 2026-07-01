@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 import { AxiosError } from "axios";
 import { ApiErrorResponse } from "../../../../types/api.type";
@@ -61,16 +62,35 @@ export const loginAction = async (
     } else if (!needPasswordChange) {
       redirect(`/rest-password?email=${email}`);
     } else {
-      // Redirect to the default dashboard route based on the user's role
-      //
-      console.log("first");
-    }
-  } catch (error) {
-    console.log(error);
+      const targetPath =
+        redirectPath && isValidRedirectForRole(redirectPath, role as UserRole)
+          ? redirectPath
+          : getDefaultDashboardRoute(role as UserRole);
 
+      redirect(targetPath);
+    }
+  } catch (error: any) {
+    console.log(error, "error");
+    if (
+      error &&
+      typeof error === "object" &&
+      "digest" in error &&
+      typeof error.digest === "string" &&
+      error.digest.startsWith("NEXT_REDIRECT")
+    ) {
+      throw error;
+    }
+
+    if (
+      error &&
+      error.response &&
+      error.response.data.message === "Email not verified"
+    ) {
+      redirect(`/verify-email?email=${payload.email}`);
+    }
     return {
       success: false,
-      message: "Something went wrong during login.",
+      message: `Login failed: ${error.message}`,
     };
   }
 };
