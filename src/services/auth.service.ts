@@ -25,9 +25,8 @@ export async function refreshToken(refreshToken: string): Promise<boolean> {
     }
     if (token) {
       await setTokenInCookies("batter-auth.session_token", token, 24 * 60 * 60);
-      return true;
     }
-    return false;
+    return token;
   } catch (error) {
     console.error("Error: error message", error);
     return false;
