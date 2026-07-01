@@ -121,9 +121,24 @@ export async function proxy(request: NextRequest) {
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
     }
-    // need to change password scenario
+
     if (accessToken) {
       const useInfo = await getUserInfo();
+      // email verification scenario
+      if (useInfo.emailVerified === false) {
+        if (pathname !== "/verify-email") {
+          const verifyEmailUrl = new URL("/verify-email", request.url);
+          verifyEmailUrl.searchParams.set("email", useInfo.email);
+          return NextResponse.redirect(verifyEmailUrl);
+        }
+        return NextResponse.next();
+      }
+      if (useInfo && useInfo.emailVerified && pathname === "/verify-email") {
+        return NextResponse.redirect(
+          new URL(getDefaultDashboardRoute(userRole as UserRole), request.url),
+        );
+      }
+      // need to change password scenario
       if (useInfo.needPasswordChange) {
         if (pathname !== "/reset-password") {
           const resetPasswordUrl = new URL("/reset-password", request.url);
