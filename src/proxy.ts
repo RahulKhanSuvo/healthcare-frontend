@@ -25,10 +25,16 @@ export async function proxy(request: NextRequest) {
   if (accessToken && isVerified) {
     userRole = verifyAccessToken?.role as UserRole;
   }
+  const unifiedSuperAdminRole = userRole === "SUPER_ADMIN" ? "ADMIN" : userRole;
+  userRole = unifiedSuperAdminRole;
   const routeOwner = getRouteOwner(pathname);
   console.log("route owner", routeOwner);
   const isAuth = isAuthRoute(pathname);
   console.log("is auth route", isAuth);
+  // refresh token check
+  if (accessToken && isVerified && refreshToken) {
+    
+  }
   // if the route is an auth route and the user is verified, redirect to the default dashboard route
   if (isAuth && isVerified) {
     return NextResponse.redirect(
