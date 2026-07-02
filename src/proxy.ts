@@ -29,10 +29,29 @@ export async function proxy(request: NextRequest) {
   console.log("route owner", routeOwner);
   const isAuth = isAuthRoute(pathname);
   console.log("is auth route", isAuth);
+  // if the route is an auth route and the user is verified, redirect to the default dashboard route
   if (isAuth && isVerified) {
     return NextResponse.redirect(
       new URL(getDefaultDashboardRoute(userRole), request.url),
     );
+  }
+  // if the route is not an auth route or the user is not verified, allow the request to proceed
+  if (routeOwner === null) {
+    return NextResponse.next();
+  }
+  // if the route is an auth route and the user is not verified, redirect to the login page
+  if (!accessToken && !isVerified) {
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+  // rule-4: if the router owner is COMMON, return the next response
+  if (routeOwner === "COMMON") {
+    return NextResponse.next();
+  }
+  // rule-5: if the router owner is USER, return the next response
+  if (routeOwner === "PATIENT") {
+    return NextResponse.next();
   }
 }
 
