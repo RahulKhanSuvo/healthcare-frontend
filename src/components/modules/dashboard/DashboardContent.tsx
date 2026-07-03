@@ -1,6 +1,10 @@
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 import { NavSection } from "@/types/dashbaord.type";
 import { UserInfo } from "@/types/user.types";
+import { Home } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type Props = {
   userInfo: UserInfo;
@@ -12,6 +16,7 @@ const DashboardSidebarContent = ({
   navItems,
   userInfo,
 }: Props) => {
+  const pathName = usePathname();
   return (
     <div>
       {/*logo*/}
@@ -19,6 +24,48 @@ const DashboardSidebarContent = ({
         <Link href={dashbaordHome}>
           <span>PH healthCare</span>
         </Link>
+      </div>
+      {/*navigarion area*/}
+      <ScrollArea className="flex-1 px-3 py-4">
+        <nav>
+          {navItems.map((section, sectionId) => (
+            <div key={sectionId}>
+              {section.title && <h4>{section.title}</h4>}
+              <div className="space-y-1">
+                {section.items.map((item, id) => {
+                  const isActive = pathName === item.href;
+                  return (
+                    <Link
+                      className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all",
+                        isActive
+                          ? "bg-primary text-primary"
+                          : "text-muted-foreground",
+                      )}
+                      key={id}
+                      href={item.href}
+                    >
+                      <Home />
+                      <span>{item.title}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </nav>
+      </ScrollArea>
+      {/*user info*/}
+      <div className="border-t px-3 py-4">
+        <div className="flex items-center gap-3">
+          <div className="rounded-full size-8 bg-primary-foreground flex items-center justify-center">
+            <span>{userInfo.name.charAt(0).toUpperCase()}</span>
+          </div>
+          <div>
+            <p>{userInfo.name}</p>
+            <p>{userInfo.role.toLocaleLowerCase().replace("_", " ")}</p>
+          </div>
+        </div>
       </div>
     </div>
   );
