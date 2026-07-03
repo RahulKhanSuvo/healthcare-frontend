@@ -3,7 +3,6 @@ import { getIconComponent } from "@/lib/iconMapper";
 import { cn } from "@/lib/utils";
 import { NavSection } from "@/types/dashbaord.type";
 import { UserInfo } from "@/types/user.types";
-import { Home } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
