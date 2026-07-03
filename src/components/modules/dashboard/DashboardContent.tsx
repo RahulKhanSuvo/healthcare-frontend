@@ -1,4 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { getIconComponent } from "@/lib/iconMapper";
 import { cn } from "@/lib/utils";
 import { NavSection } from "@/types/dashbaord.type";
 import { UserInfo } from "@/types/user.types";
@@ -34,6 +35,7 @@ const DashboardSidebarContent = ({
               <div className="space-y-1">
                 {section.items.map((item, id) => {
                   const isActive = pathName === item.href;
+                  const Icon = getIconComponent(item.icon);
                   return (
                     <Link
                       className={cn(
@@ -45,7 +47,7 @@ const DashboardSidebarContent = ({
                       key={id}
                       href={item.href}
                     >
-                      <Home />
+                      <Icon />
                       <span>{item.title}</span>
                     </Link>
                   );
