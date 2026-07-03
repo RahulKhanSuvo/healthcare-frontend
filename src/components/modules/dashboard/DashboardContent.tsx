@@ -1,3 +1,4 @@
+"use client";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getIconComponent } from "@/lib/iconMapper";
 import { cn } from "@/lib/utils";
@@ -18,16 +19,16 @@ const DashboardSidebarContent = ({
 }: Props) => {
   const pathName = usePathname();
   return (
-    <div>
+    <div className="hidden md:flex h-full w-64 flex-col border-r bg-card overflow-y-auto">
       {/*logo*/}
-      <div>
+      <div className="flex h-16 items-center border-b px-6">
         <Link href={dashbaordHome}>
-          <span>PH healthCare</span>
+          <span className="text-xl font-bold text-primary">PH healthCare</span>
         </Link>
       </div>
       {/*navigarion area*/}
       <ScrollArea className="flex-1 px-3 py-4">
-        <nav>
+        <nav className="space-y-6">
           {navItems.map((section, sectionId) => (
             <div key={sectionId}>
               {section.title && <h4>{section.title}</h4>}
@@ -40,7 +41,7 @@ const DashboardSidebarContent = ({
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 transition-all",
                         isActive
-                          ? "bg-primary text-primary"
+                          ? "bg-primary text-white"
                           : "text-muted-foreground",
                       )}
                       key={id}
