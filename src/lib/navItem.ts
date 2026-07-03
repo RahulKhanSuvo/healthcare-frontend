@@ -8,7 +8,7 @@ export const getCommonNavItems = (role: UserRole): NavSection[] => {
       items: [
         { title: "Home", href: "/", icon: "Home" },
         { title: "Dashboard", href: defaultDashboard, icon: "PanelsTopLeft" },
-        { title: "My Profile", href: "/my-profile", icon: "user" },
+        { title: "My Profile", href: "/my-profile", icon: "CircleUserRound" },
       ],
     },
     {
