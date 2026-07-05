@@ -1,3 +1,4 @@
+"use client";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SheetTitle } from "@/components/ui/sheet";
 import { getIconComponent } from "@/lib/iconMapper";
