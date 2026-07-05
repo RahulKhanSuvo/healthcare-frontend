@@ -2,9 +2,10 @@ import { useState } from "react";
 import MobileSideBar from "./MobileSideBar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { UserInfo } from "@/types/user.types";
 import { NavSection } from "@/types/dashbaord.type";
+import { Input } from "@/components/ui/input";
 interface MobileSideBarProps {
   userInfo: UserInfo;
   navItems: NavSection[];
@@ -34,6 +35,12 @@ const DashhboardNavbarContent = ({
         </SheetContent>
       </Sheet>
       {/*search component*/}
+      <div className="flex-1 flex items-center justify-end gap-1">
+        <div className="relative w-full max-w-md hidden sm:block">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 size-5" />
+          <Input type="text" placeholder="Search" />
+        </div>
+      </div>
       {/*right side actions*/}
       {/*notifications*/}
       {/*user dropdown*/}
