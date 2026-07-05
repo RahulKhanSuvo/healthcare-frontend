@@ -27,7 +27,7 @@ export async function getNewRefreshToken(
       await setTokenInCookies("refreshToken", newRefreshToken);
     }
     if (token) {
-      await setTokenInCookies("batter-auth.session_token", token, 24 * 60 * 60);
+      await setTokenInCookies("better-auth.session_token", token, 24 * 60 * 60);
     }
     return token;
   } catch (error) {
@@ -39,7 +39,8 @@ export async function getUserInfo() {
   try {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("accessToken")?.value;
-    const sessionToken = cookieStore.get("batter-auth.session_token")?.value;
+    const sessionToken = cookieStore.get("better-auth.session_token")?.value;
+    console.log("sessionToken", sessionToken);
     if (!accessToken) {
       return null;
     }
@@ -47,7 +48,7 @@ export async function getUserInfo() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Cookie: `accessToken=${accessToken}; batter-auth.session_token=${sessionToken}`,
+        Cookie: `accessToken=${accessToken}; better-auth.session_token=${sessionToken}`,
       },
     });
     if (!res.ok) {
