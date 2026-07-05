@@ -38,7 +38,7 @@ const DashhboardNavbarContent = ({
       <div className="flex-1 flex items-center justify-end gap-1">
         <div className="relative w-full max-w-md hidden sm:block">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 size-5" />
-          <Input type="text" placeholder="Search" />
+          <Input type="text" placeholder="Search" className="pl-9 pr-4" />
         </div>
       </div>
       {/*right side actions*/}
