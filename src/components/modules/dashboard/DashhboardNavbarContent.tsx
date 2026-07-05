@@ -25,7 +25,7 @@ const DashhboardNavbarContent = ({
             <Menu className="size-5" />
           </Button>
         </SheetTrigger>
-        <SheetContent>
+        <SheetContent side="left">
           <MobileSideBar
             dashboardHome={dashboardHome}
             userInfo={userInfo}
