@@ -64,6 +64,18 @@ const MobileSideBar = ({
           ))}
         </nav>
       </ScrollArea>
+      {/*user info*/}
+      <div className="border-t p-4">
+        <div className="flex items-center gap-3">
+          <div className="rounded-full size-8 bg-primary-foreground flex items-center justify-center">
+            <span>{userInfo.name.charAt(0).toUpperCase()}</span>
+          </div>
+          <div>
+            <p>{userInfo.name}</p>
+            <p>{userInfo.role.toLocaleLowerCase().replace("_", " ")}</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
