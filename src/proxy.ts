@@ -82,6 +82,7 @@ export async function proxy(request: NextRequest) {
       return response;
     }
     // rule-1: if the user is authenticated, redirect to the default dashboard route
+    console.log("valid token",isAccessTokenValid)
     if (isAuth && isAccessTokenValid) {
       return NextResponse.redirect(
         new URL(getDefaultDashboardRoute(userRole), request.url),
