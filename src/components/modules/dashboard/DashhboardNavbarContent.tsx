@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MobileSideBar from "./MobileSideBar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { UserInfo } from "@/types/user.types";
 import { NavSection } from "@/types/dashbaord.type";
 import { Input } from "@/components/ui/input";
 import NotificationsDropdown from "./NotificationsDropdown";
+import UserDropdown from "./UserDropdown";
 interface MobileSideBarProps {
   userInfo: UserInfo;
   navItems: NavSection[];
@@ -19,10 +20,21 @@ const DashhboardNavbarContent = ({
   navItems,
 }: MobileSideBarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [isMoblie, setMobile] = useState<boolean>(false)
+  useEffect(() => {
+    const checkSmallScreen = () => {
+      setMobile(window.innerWidth<768)
+    }
+    checkSmallScreen()
+    window.addEventListener('resize', checkSmallScreen)
+    return () => {
+      window.removeEventListener('resize', checkSmallScreen)
+    }
+  },[])
   return (
     <div className="bg-gray-100 flex items-center border-red-400 border justify-between">
       {/*moble menu toggle*/}
-      <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+      <Sheet open={isMobileMenuOpen && isMoblie} onOpenChange={setIsMobileMenuOpen}>
         <SheetTrigger asChild className="md:hidden">
           <Button variant={"outline"} size={"icon"}>
             <Menu className="size-5" />
@@ -48,6 +60,7 @@ const DashhboardNavbarContent = ({
       {/*notifications*/}
       <NotificationsDropdown/>
       {/*user dropdown*/}
+      <UserDropdown userInfo={userInfo}/>
     </div>
   );
 };
