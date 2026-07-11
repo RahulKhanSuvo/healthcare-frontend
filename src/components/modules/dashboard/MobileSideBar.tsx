@@ -1,6 +1,6 @@
 "use client";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { SheetTitle } from "@/components/ui/sheet";
+
 import { getIconComponent } from "@/lib/iconMapper";
 import { cn } from "@/lib/utils";
 import { NavSection } from "@/types/dashbaord.type";
@@ -27,9 +27,7 @@ const MobileSideBar = ({
           <span>Ph HealthCare</span>
         </Link>
       </div>
-      <SheetTitle>
-        <span>Menu</span>
-      </SheetTitle>
+      <h2 className="px-3 text-sm font-semibold">Menu</h2>
       {/*navigation area*/}
       <ScrollArea className="flex-1 px-3 py-4">
         <nav className="space-y-1">
