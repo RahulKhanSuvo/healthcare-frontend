@@ -20,7 +20,7 @@ const DashboardSidebarContent = ({
   const pathName = usePathname();
   return (
     <div className="hidden md:flex h-full w-64 flex-col border-r bg-card overflow-y-auto">
-      <div className="flex sticky top-0 h-16 items-center border-b px-6 bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 z-30">
+      <div className="flex sticky top-0 h-16 items-center border-b px-6 bg-card/95 backdrop-blur supports-backdrop-filter:bg-card/60 z-30">
         <Link href={dashbaordHome} className="flex items-center gap-2">
           <span className="text-xl font-bold text-primary">PH</span>
           <span className="text-xl font-bold">HealthCare</span>
