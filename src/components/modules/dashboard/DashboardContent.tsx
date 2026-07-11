@@ -21,7 +21,7 @@ const DashboardSidebarContent = ({
   return (
     <div className="hidden md:flex h-full w-64 flex-col border-r bg-card overflow-y-auto">
       {/*logo*/}
-      <div className="flex h-16 items-center border-b px-6">
+      <div className="flex sticky top-0 h-16 items-center border-b px-6 bg-white py-4 z-30">
         <Link href={dashbaordHome}>
           <span className="text-xl font-bold text-primary">PH healthCare</span>
         </Link>
