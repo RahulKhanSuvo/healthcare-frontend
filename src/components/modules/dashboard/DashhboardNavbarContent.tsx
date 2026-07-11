@@ -19,7 +19,7 @@ const DashhboardNavbarContent = ({
 }: MobileSideBarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   return (
-    <div>
+    <div className="bg-gray-100">
       {/*moble menu toggle*/}
       <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <SheetTrigger asChild className="md:hidden">
@@ -43,6 +43,7 @@ const DashhboardNavbarContent = ({
         </div>
       </div>
       {/*right side actions*/}
+
       {/*notifications*/}
       {/*user dropdown*/}
     </div>
