@@ -1,3 +1,4 @@
+'use client'
 import { useState } from "react";
 import MobileSideBar from "./MobileSideBar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
