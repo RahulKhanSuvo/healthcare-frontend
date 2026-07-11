@@ -2,7 +2,6 @@ import { getUserInfo } from "@/services/auth.service";
 import { NavSection } from "@/types/dashbaord.type";
 import { getNavItemsByRole } from "@/lib/navItem";
 import { getDefaultDashboardRoute } from "@/lib/authUtils";
-import MobileSideBar from "./MobileSideBar";
 import DashhboardNavbarContent from "./DashhboardNavbarContent";
 
 const DashboardNavbar = async () => {
