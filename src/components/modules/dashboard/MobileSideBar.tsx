@@ -21,7 +21,7 @@ const MobileSideBar = ({
 }: MobileSideBarProps) => {
   const pathname = usePathname();
   return (
-    <div className="flex h-full flex-col hidden">
+    <div className="flex h-full flex-col md:hidden">
       <div>
         <Link href={dashboardHome}>
           <span>Ph HealthCare</span>
