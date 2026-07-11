@@ -65,7 +65,6 @@ export const loginAction = async (
 
     redirect(targetPath);
   } catch (error: any) {
-    console.log(error, "error");
     if (
       error &&
       typeof error === "object" &&
@@ -75,6 +74,8 @@ export const loginAction = async (
     ) {
       throw error;
     }
+
+    console.log(error, "error");
 
     if (
       error &&
