@@ -45,8 +45,10 @@ export const loginAction = async (
       "/auth/login",
       parsedPayload.data,
     );
-    const { accessToken, refreshToken, token, data } = response.data;
-    const user = data.user;
+    // httpClient.post returns ApiResponse<T>.
+    // So response.data is the T (ILoginResponse).
+    const { accessToken, refreshToken, token, user } = response.data;
+    console.log("user data", response.data);
 
     if (!user) {
       throw new Error("User data missing in login response");
