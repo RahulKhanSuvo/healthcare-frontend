@@ -4,10 +4,8 @@ import { UserInfo } from "@/types/user.types"
 const UserDropdown = ({userInfo}: {userInfo: UserInfo}) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <div className="flex items-center gap-2">
-          <span>{userInfo.name.charAt(0).toUpperCase() + userInfo.name.slice(1)}</span>
-        </div>
+      <DropdownMenuTrigger className="size-6 rounded-full border flex  items-center">
+        <span className="text-center">{userInfo.name.charAt(0).toUpperCase()}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
