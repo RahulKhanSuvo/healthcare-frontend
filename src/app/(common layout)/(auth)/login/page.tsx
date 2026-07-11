@@ -7,7 +7,7 @@ export default async function LoginPage({ searchParams }: LoginParams) {
   const redirectPath = params.rediract;
   return (
     <div className="flex justify-center items-center">
-      <LoginForm redirectPath={redirectPath} />
+      {/*<LoginForm redirectPath={redirectPath} />*/}
     </div>
   );
 }
