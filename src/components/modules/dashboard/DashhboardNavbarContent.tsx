@@ -32,7 +32,7 @@ const DashhboardNavbarContent = ({
     }
   },[])
   return (
-    <div className="bg-gray-100 flex items-center border-red-400 border justify-between">
+    <div className="bg-gray-100 flex gap-6 items-center justify-between px-5">
       {/*moble menu toggle*/}
       <Sheet open={isMobileMenuOpen && isMoblie} onOpenChange={setIsMobileMenuOpen}>
         <SheetTrigger asChild className="md:hidden">
@@ -49,8 +49,8 @@ const DashhboardNavbarContent = ({
         </SheetContent>
       </Sheet>
       {/*search component*/}
-      <div className="w-fit  flex items-center justify-end gap-1">
-        <div className="relative w-full max-w-md hidden sm:block">
+      <div className="flex-1 flex items-center justify-end gap-1">
+        <div className="relative w-full   hidden sm:block">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 size-5" />
           <Input type="text" placeholder="Search" className="pl-9 pr-4" />
         </div>
@@ -58,9 +58,9 @@ const DashhboardNavbarContent = ({
       {/*right side actions*/}
 
       {/*notifications*/}
-      <NotificationsDropdown/>
+      <div className="flex items-center gap-2"> <NotificationsDropdown/>
       {/*user dropdown*/}
-      <UserDropdown userInfo={userInfo}/>
+      <UserDropdown userInfo={userInfo}/></div>
     </div>
   );
 };
