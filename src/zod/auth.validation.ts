@@ -5,4 +5,4 @@ export const loginSchema = z.object({
     // role: z.enum(["ADMIN", "SUPER_ADMIN", "DOCTOR", "PATIENT"]).optional(),
 });
 
-export type ILogin = z.infer<typeof loginSchema>; 
+export type ILogin = z.infer<typeof loginSchema>;
