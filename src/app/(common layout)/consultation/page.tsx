@@ -4,7 +4,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { getDoctors } from "./_actions";
-import DoctorsList from "@/components/modules/auth/consultation/DoctorsList";
+import DoctorList from "@/components/modules/consultation/DoctorList";
 
 async function ConsultationPage() {
   const queryClient = new QueryClient();
@@ -14,7 +14,7 @@ async function ConsultationPage() {
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <DoctorsList />
+      <DoctorList />
     </HydrationBoundary>
   );
 }
