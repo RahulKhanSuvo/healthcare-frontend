@@ -33,7 +33,7 @@ const decodeToken = (token: string) => {
   const decoded = jwt.decode(token) as CustomJwtPayload;
   return decoded;
 };
-export const JwtUtils = {
+export const jwtUtils = {
   createToken,
   verifyToken,
   decodeToken,
