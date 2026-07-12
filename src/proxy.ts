@@ -116,6 +116,18 @@ export async function proxy(request: NextRequest) {
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
     }
+    // enforce user to stay in reset password if need password change
+    if (accessToken) {
+      const userInfo = await getUserInfo();
+      if (userInfo?.needPasswordChange) {
+        if (pathname !== "/reset-password") {
+          const resetPasswordUrl = new URL("/reset-password", request.url);
+          resetPasswordUrl.searchParams.set("email", userInfo.email);
+          return NextResponse.redirect(resetPasswordUrl);
+        }
+        return NextResponse.next();
+      }
+    }
     // rule:5: if user try to go comment protected route
     if (routeOwner === "COMMON") {
       return NextResponse.next();
