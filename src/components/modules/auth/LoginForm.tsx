@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { ILogin, loginSchema } from "@/zod/auth.validation";
+
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form";
-import { loginAction } from "@/app/(common layout)/(auth)/login/_action";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import AppField from "@/components/shared/form/Appfiled";
 
@@ -12,12 +13,14 @@ import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { loginAction } from "@/app/(common layout)/(auth)/login/_actions";
+import { ILoginPayload, loginZodSchema } from "@/zod/auth.validation";
 
 const LoginForm = ({ redirectPath }: { redirectPath?: string }) => {
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const { mutateAsync } = useMutation({
-    mutationFn: (payload: ILogin) => loginAction(payload, redirectPath),
+    mutationFn: (payload: ILoginPayload) => loginAction(payload),
   });
   const form = useForm({
     defaultValues: {
@@ -32,9 +35,9 @@ const LoginForm = ({ redirectPath }: { redirectPath?: string }) => {
           setServerError(result.message || "Login failed");
           return;
         }
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
-        setServerError("Login failed");
+        setServerError(`Login failed: ${error.message}`);
       }
     },
   });
@@ -56,7 +59,7 @@ const LoginForm = ({ redirectPath }: { redirectPath?: string }) => {
         >
           <form.Field
             name="email"
-            validators={{ onChange: loginSchema.shape.password }}
+            validators={{ onChange: loginZodSchema.shape.password }}
           >
             {(field) => (
               <AppField
@@ -69,7 +72,7 @@ const LoginForm = ({ redirectPath }: { redirectPath?: string }) => {
           </form.Field>
           <form.Field
             name="password"
-            validators={{ onChange: loginSchema.shape.password }}
+            validators={{ onChange: loginZodSchema.shape.password }}
           >
             {(field) => (
               <AppField
