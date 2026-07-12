@@ -1,7 +1,10 @@
+"use server";
 import { httpClient } from "@/lib/axios/httpClient";
+import { setTokenInCookies } from "@/lib/tokenUtil";
 import { ApiErrorResponse } from "@/types/api.type";
 import { ILoginResponse } from "@/types/auth.type";
 import { ILoginPayload, loginZodSchema } from "@/zod/auth.validation";
+import { redirect } from "next/navigation";
 
 export const loginAction = async (
   payload: ILoginPayload,
@@ -20,7 +23,11 @@ export const loginAction = async (
       "auth/login",
       parsedPayload.data,
     );
-    return response.data;
+    const { accessToken, refreshToken, token, user } = response.data;
+    await setTokenInCookies("accessToken", accessToken);
+    await setTokenInCookies("refreshToken", refreshToken);
+    await setTokenInCookies("batter-auth.session_token", token);
+    redirect("/dashboard");
   } catch (error) {
     console.log("Error: error message", error);
     return {
