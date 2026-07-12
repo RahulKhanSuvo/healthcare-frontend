@@ -20,7 +20,7 @@ const LoginForm = ({ redirectPath }: { redirectPath?: string }) => {
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const { mutateAsync } = useMutation({
-    mutationFn: (payload: ILoginPayload) => loginAction(payload),
+    mutationFn: (payload: ILoginPayload) => loginAction(payload, redirectPath),
   });
   const form = useForm({
     defaultValues: {
