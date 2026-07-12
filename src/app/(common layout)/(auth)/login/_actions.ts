@@ -22,7 +22,7 @@ export const loginAction = async (
     );
     return response.data;
   } catch (error) {
-    console.error("Error: error message", error);
+    console.log("Error: error message", error);
     return {
       success: false,
       message: `Login failed: ${error instanceof Error ? error.message : String(error)}`,
