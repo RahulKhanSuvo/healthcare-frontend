@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 
 export const loginAction = async (
   payload: ILoginPayload,
+  redirectPath?: string,
 ): Promise<ILoginResponse | ApiErrorResponse> => {
   const parsedPayload = loginZodSchema.safeParse(payload);
   if (!parsedPayload.success) {
@@ -24,10 +25,15 @@ export const loginAction = async (
       parsedPayload.data,
     );
     const { accessToken, refreshToken, token, user } = response.data;
+    const { role, emailVerified, needPasswordChange, email } = user;
     await setTokenInCookies("accessToken", accessToken);
     await setTokenInCookies("refreshToken", refreshToken);
     await setTokenInCookies("batter-auth.session_token", token);
-    redirect("/dashboard");
+    if (!emailVerified) {
+      redirect("/verify-email");
+    } else if (needPasswordChange) {
+      redirect(`/change-password?email=${email}`);
+    }
   } catch (error) {
     if (
       error &&
