@@ -1,4 +1,9 @@
 "use server";
+import {
+  getDefaultDashboardRoute,
+  isValidRedirectForRole,
+  UserRole,
+} from "@/lib/authUtils";
 import { httpClient } from "@/lib/axios/httpClient";
 import { setTokenInCookies } from "@/lib/tokenUtil";
 import { ApiErrorResponse } from "@/types/api.type";
@@ -33,6 +38,12 @@ export const loginAction = async (
       redirect("/verify-email");
     } else if (needPasswordChange) {
       redirect(`/reset-password?email=${email}`);
+    } else {
+      const targetPath =
+        redirectPath && isValidRedirectForRole(redirectPath, role as UserRole)
+          ? redirectPath
+          : getDefaultDashboardRoute(role as UserRole);
+      redirect(targetPath);
     }
   } catch (error) {
     if (
