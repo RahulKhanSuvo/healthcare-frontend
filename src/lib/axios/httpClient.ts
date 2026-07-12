@@ -17,7 +17,7 @@ export interface ApiRequestOptions {
 }
 const httpGet = async <TData>(
   url: string,
-  option: ApiRequestOptions,
+  option?: ApiRequestOptions,
 ): Promise<ApiResponse<TData>> => {
   try {
     const instance = axiosInstance();
@@ -31,7 +31,7 @@ const httpGet = async <TData>(
 const httpPost = async <TData>(
   url: string,
   data: unknown,
-  option: ApiRequestOptions,
+  option?: ApiRequestOptions,
 ): Promise<ApiResponse<TData>> => {
   try {
     const instance = axiosInstance();
@@ -46,7 +46,7 @@ const httpPost = async <TData>(
 const httpPut = async <TData>(
   url: string,
   data: unknown,
-  option: ApiRequestOptions,
+  option?: ApiRequestOptions,
 ): Promise<ApiResponse<TData>> => {
   try {
     const instance = axiosInstance();
@@ -61,7 +61,7 @@ const httpPut = async <TData>(
 const httpPatch = async <TData>(
   url: string,
   data: unknown,
-  option: ApiRequestOptions,
+  option?: ApiRequestOptions,
 ): Promise<ApiResponse<TData>> => {
   try {
     const instance = axiosInstance();
@@ -75,7 +75,7 @@ const httpPatch = async <TData>(
 
 const httpDelete = async <TData>(
   url: string,
-  option: ApiRequestOptions,
+  option?: ApiRequestOptions,
 ): Promise<ApiResponse<TData>> => {
   try {
     const instance = axiosInstance();
