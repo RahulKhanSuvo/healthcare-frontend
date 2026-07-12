@@ -7,7 +7,9 @@ if (!BASE_API_URL) {
   throw new Error("NEXT_PUBLIC_API_BASE_URL is not defined");
 }
 
-export async function newRefreshToken(refreshToken: string): Promise<boolean> {
+export async function getNewRefreshToken(
+  refreshToken: string,
+): Promise<boolean> {
   try {
     const response = await fetch(`${BASE_API_URL}/auth/refresh-token`, {
       method: "POST",
