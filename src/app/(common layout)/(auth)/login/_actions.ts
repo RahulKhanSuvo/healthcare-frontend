@@ -18,7 +18,7 @@ export const loginAction = async (
   try {
     const response = await httpClient.post<ILoginResponse>(
       "auth/login",
-      payload,
+      parsedPayload.data,
     );
     return response.data;
   } catch (error) {
