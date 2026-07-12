@@ -6,7 +6,7 @@ import {
   isAuthRoute,
   UserRole,
 } from "./lib/authUtils";
-import { getNewRefreshToken } from "./services/auth.service";
+import { getNewRefreshToken, getUserInfo } from "./services/auth.service";
 import { isTokenExpiringSoon } from "./lib/tokenUtil";
 async function refreshTokenMiddleware(refreshToken: string): Promise<boolean> {
   try {
@@ -86,22 +86,41 @@ export async function proxy(request: NextRequest) {
         new URL(getDefaultDashboardRoute(userRole), request.url),
       );
     }
-    // rule:2- if user try to access to the public route
+    // rule:2 if user try to access to reset-password route
+    if (pathname === "/reset-password") {
+      const email = request.nextUrl.searchParams.get("email");
+      // case 1 if user need to change password
+      if (accessToken && email) {
+        const userInfo = await getUserInfo();
+        if (userInfo?.needPasswordChange) {
+          return NextResponse.next();
+        } else {
+          return NextResponse.redirect(
+            new URL(getDefaultDashboardRoute(userRole), request.url),
+          );
+        }
+      }
+      if (email) {
+        return NextResponse.next();
+      }
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+    // rule:3- if user try to access to the public route
     if (routeOwner === null) {
       return NextResponse.next();
     }
 
-    // rule3: if use is not login
+    // rule:4: if use is not login
     if (!accessToken) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
     }
-    // rule 4 :if user try to go comment protected route
+    // rule:5: if user try to go comment protected route
     if (routeOwner === "COMMON") {
       return NextResponse.next();
     }
-    // rule 5: if user try access the other role or user protected route
+    // rule:6: if user try access the other role or user protected route
     if (
       routeOwner === "ADMIN" ||
       routeOwner === "DOCTOR" ||
