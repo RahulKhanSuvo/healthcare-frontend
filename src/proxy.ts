@@ -58,6 +58,22 @@ export function proxy(request: NextRequest) {
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
     }
+    // rule 4 :if user try to go comment protected route
+    if (routeOwner === "COMMON") {
+      return NextResponse.next();
+    }
+    // rule 5: if user try access the other role or user protected route
+    if (
+      routeOwner === "ADMIN" ||
+      routeOwner === "DOCTOR" ||
+      routeOwner === "PATIENT"
+    ) {
+      if (routeOwner !== unifiedRole) {
+        return NextResponse.redirect(
+          new URL(getDefaultDashboardRoute(userRole), request.url),
+        );
+      }
+    }
     return NextResponse.next();
   } catch (error) {
     console.error("Proxy Error:", error);
