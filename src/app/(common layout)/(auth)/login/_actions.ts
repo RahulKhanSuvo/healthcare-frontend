@@ -29,7 +29,15 @@ export const loginAction = async (
     await setTokenInCookies("batter-auth.session_token", token);
     redirect("/dashboard");
   } catch (error) {
-    console.log("Error: error message", error);
+    if (
+      error &&
+      typeof error === "object" &&
+      "digest" in error &&
+      typeof error.digest === "string" &&
+      error.digest.startsWith("NEXT_REDIRECT")
+    ) {
+      throw error;
+    }
     return {
       success: false,
       message: `Login failed: ${error instanceof Error ? error.message : String(error)}`,
