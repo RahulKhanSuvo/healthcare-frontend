@@ -6,11 +6,22 @@ import {
   isAuthRoute,
   UserRole,
 } from "./lib/authUtils";
+import { getNewRefreshToken } from "./services/auth.service";
+import { isTokenExpiringSoon } from "./lib/tokenUtil";
+async function refreshTokenMiddleware(refreshToken: string): Promise<boolean> {
+  try {
+    const isValidRefreshToken = await getNewRefreshToken(refreshToken);
+    return isValidRefreshToken;
+  } catch (error) {
+    console.error("Error: error message", error);
+    return false;
+  }
+}
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   try {
     const { pathname } = request.nextUrl;
-
+    const refreshToken = request.cookies.get("refreshToken")?.value;
     const accessToken = request.cookies.get("accessToken")?.value;
 
     const decodedAccessToken = accessToken
@@ -40,6 +51,34 @@ export function proxy(request: NextRequest) {
     console.log("Role:", unifiedRole);
     console.log("isAuthRoute", isAuth);
     console.log("isValid use", isValidAccessToken);
+    if (
+      isValidAccessToken &&
+      refreshToken &&
+      (await isTokenExpiringSoon(accessToken as string))
+    ) {
+      const requestHeaders = new Headers(request.headers);
+      const response = NextResponse.next({
+        request: {
+          headers: requestHeaders,
+        },
+      });
+
+      try {
+        const refreshed = await refreshTokenMiddleware(refreshToken);
+        if (refreshed) {
+          requestHeaders.set("x-token-refreshed", "1");
+        }
+        return NextResponse.next({
+          request: {
+            headers: requestHeaders,
+          },
+          headers: response.headers,
+        });
+      } catch (error) {
+        console.error("Error: error message", error);
+      }
+      return response;
+    }
 
     // rule:1 if user is login but try to access to auth route
     if (isAuth && isValidAccessToken) {
