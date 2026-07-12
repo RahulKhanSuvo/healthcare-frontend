@@ -16,14 +16,15 @@ export function proxy(request: NextRequest) {
     const decodedAccessToken = accessToken
       ? jwtUtils.verifyToken(
           accessToken,
-          process.env.JWT_ACCESS_SECRET as string,
+          process.env.ACCESS_TOKEN_SECRET as string,
         ).data
       : null;
+    console.log("data", decodedAccessToken);
 
     const isValidAccessToken = accessToken
       ? jwtUtils.verifyToken(
           accessToken,
-          process.env.JWT_ACCESS_SECRET as string,
+          process.env.ACCESS_TOKEN_SECRET as string,
         ).success
       : false;
 
@@ -40,6 +41,7 @@ export function proxy(request: NextRequest) {
     console.log("Path:", pathname);
     console.log("Route Owner:", routeOwner);
     console.log("Role:", unifiedRole);
+    console.log("isValid use", isValidAccessToken);
 
     if (isAuth && isValidAccessToken) {
       return NextResponse.redirect(
@@ -56,6 +58,13 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|\\.well-known).*)",
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.well-known).*)",
   ],
 };
