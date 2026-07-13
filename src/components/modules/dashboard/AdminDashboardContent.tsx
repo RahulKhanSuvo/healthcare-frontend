@@ -1,7 +1,5 @@
 const AdminDashboardContent = () => {
-  return (
-    <div>AdminDashboardContent</div>
-  )
-}
+  return <div>AdminDashboardContent</div>;
+};
 
-export default AdminDashboardContent
+export default AdminDashboardContent;

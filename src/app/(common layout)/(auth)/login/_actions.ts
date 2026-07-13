@@ -34,7 +34,7 @@ export const loginAction = async (
     const { role, needPasswordChange, email } = user;
     await setTokenInCookies("accessToken", accessToken);
     await setTokenInCookies("refreshToken", refreshToken);
-    await setTokenInCookies("batter-auth.session_token", token);
+    await setTokenInCookies("better-auth.session_token", token);
     if (needPasswordChange) {
       redirect(`/reset-password?email=${email}`);
     } else {
