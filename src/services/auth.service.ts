@@ -49,6 +49,7 @@ export async function getNewRefreshToken(
 export async function getUserInfo(): Promise<UserInfo | null> {
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get("batter-auth.session_token")?.value;
+  // console.log("sessionToken", sessionToken);
   const accessToken = cookieStore.get("accessToken")?.value;
   if (!sessionToken || !accessToken) {
     return null;
