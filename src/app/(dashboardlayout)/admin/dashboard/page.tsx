@@ -11,6 +11,8 @@ const AdminDashboardPage = async () => {
   await queryClient.prefetchQuery({
     queryKey: ["admin-dashboard-data"],
     queryFn: getDashboardData,
+    staleTime: 5 * 1000,
+    gcTime: 10 * 1000,
   });
   // await queryClient.getQueryData(["admin-dashboard-data"]);
   // console.log("dashboard", dashboardData);
