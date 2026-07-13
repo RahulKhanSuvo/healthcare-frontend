@@ -1,5 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Bell, Calendar, MessageCircleCode, Settings2Icon } from "lucide-react";
 
@@ -56,22 +63,17 @@ const getNotifictionIcon = (type: NotificationsDropdownProps["type"]) => {
     case "message":
       return <MessageCircleCode />;
     default:
-      return ;
+      return;
   }
-}
+};
 const NotificationsDropdown = () => {
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Button>
-           <Bell />
-       </Button>
+        <Bell />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>
-          Notifications
-        </DropdownMenuLabel>
+        <DropdownMenuLabel>Notifications</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <ScrollArea>
           {mockNotifications.map((notification) => (
@@ -85,7 +87,7 @@ const NotificationsDropdown = () => {
         </ScrollArea>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
-}
+  );
+};
 
-export default NotificationsDropdown
+export default NotificationsDropdown;
