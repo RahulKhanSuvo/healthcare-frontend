@@ -10,7 +10,6 @@ import { setTokenInCookies } from "@/lib/tokenUtil";
 import { ApiErrorResponse } from "@/types/api.type";
 import { ILoginResponse } from "@/types/auth.type";
 import { ILoginPayload, loginZodSchema } from "@/zod/auth.validation";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const loginAction = async (
