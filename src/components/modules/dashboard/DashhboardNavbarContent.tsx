@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useEffect, useState } from "react";
 import MobileSideBar from "./MobileSideBar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -20,21 +20,24 @@ const DashhboardNavbarContent = ({
   navItems,
 }: MobileSideBarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
-  const [isMoblie, setMobile] = useState<boolean>(false)
+  const [isMoblie, setMobile] = useState<boolean>(false);
   useEffect(() => {
     const checkSmallScreen = () => {
-      setMobile(window.innerWidth<768)
-    }
-    checkSmallScreen()
-    window.addEventListener('resize', checkSmallScreen)
+      setMobile(window.innerWidth < 768);
+    };
+    checkSmallScreen();
+    window.addEventListener("resize", checkSmallScreen);
     return () => {
-      window.removeEventListener('resize', checkSmallScreen)
-    }
-  },[])
+      window.removeEventListener("resize", checkSmallScreen);
+    };
+  }, []);
   return (
     <div className="bg-gray-100 flex gap-6 items-center justify-between px-5">
       {/*moble menu toggle*/}
-      <Sheet open={isMobileMenuOpen && isMoblie} onOpenChange={setIsMobileMenuOpen}>
+      <Sheet
+        open={isMobileMenuOpen && isMoblie}
+        onOpenChange={setIsMobileMenuOpen}
+      >
         <SheetTrigger asChild className="md:hidden">
           <Button variant={"outline"} size={"icon"}>
             <Menu className="size-5" />
@@ -58,9 +61,12 @@ const DashhboardNavbarContent = ({
       {/*right side actions*/}
 
       {/*notifications*/}
-      <div className="flex items-center gap-2"> <NotificationsDropdown/>
-      {/*user dropdown*/}
-      <UserDropdown userInfo={userInfo}/></div>
+      <div className="flex items-center gap-2">
+        {" "}
+        <NotificationsDropdown />
+        {/*user dropdown*/}
+        <UserDropdown userInfo={userInfo} />
+      </div>
     </div>
   );
 };
