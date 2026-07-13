@@ -33,7 +33,7 @@ const axiosInstance = async () => {
   }
   const cookieHeader = cookieStore
     .getAll()
-    .map((cookie) => `${cookie.value}=${cookie.value}`)
+    .map((cookie) => `${cookie.name}=${cookie.value}`)
     .join("; ");
   return axios.create({
     baseURL: API_URL,
