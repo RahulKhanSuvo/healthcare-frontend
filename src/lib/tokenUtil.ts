@@ -1,8 +1,9 @@
-"use server";
-
+import type { cookies } from "next/headers";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { setCookie } from "./cookiesUtils";
+
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
+
 const getTokenSecondRemaining = (token: string): number => {
   if (!token || token === null) return 0;
   try {
@@ -20,7 +21,9 @@ const getTokenSecondRemaining = (token: string): number => {
     return 0;
   }
 };
-export const setTokenInCookies = async (
+
+export const setTokenInCookies = (
+  cookieStore: Awaited<ReturnType<typeof cookies>>,
   name: string,
   token: string,
   fallback = 60 * 60 * 24,
@@ -29,17 +32,17 @@ export const setTokenInCookies = async (
   if (name !== "better-auth.session_token") {
     maxAgeSeconds = getTokenSecondRemaining(token);
   }
-  await setCookie(name, token, maxAgeSeconds ? maxAgeSeconds : fallback);
+  setCookie(cookieStore, name, token, maxAgeSeconds ? maxAgeSeconds : fallback);
 };
 
-export async function isTokenExpiringSoon(
+export function isTokenExpiringSoon(
   token: string,
   thresholdSeconds = 300,
-): Promise<boolean> {
+): boolean {
   const remainingSecond = getTokenSecondRemaining(token);
   return remainingSecond > 0 && remainingSecond <= thresholdSeconds;
 }
 
-export async function isTokenExpired(token: string): Promise<boolean> {
+export function isTokenExpired(token: string): boolean {
   return getTokenSecondRemaining(token) === 0;
 }
