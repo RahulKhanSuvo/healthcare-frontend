@@ -1,4 +1,5 @@
 "use client";
+import { StatsCard } from "@/components/shared/StatsCard";
 import { getDashboardData } from "@/services/dashboard.service";
 import { useQuery } from "@tanstack/react-query";
 
@@ -12,7 +13,16 @@ const AdminDashboardContent = () => {
   // Now dashboardData is ApiResponse<IAdminDashboardData>
   const data = dashboardData?.data;
   console.log(data);
-  return <div>AdminDashboardContent</div>;
+  return (
+    <div>
+      <StatsCard
+        title={"Total Patients"}
+        value={data?.patientCount ?? 0}
+        iconName={"User"}
+        description={"Total number of patients"}
+      />
+    </div>
+  );
 };
 
 export default AdminDashboardContent;
