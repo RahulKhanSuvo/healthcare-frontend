@@ -12,10 +12,8 @@ const AdminDashboardPage = async () => {
     queryKey: ["admin-dashboard-data"],
     queryFn: getDashboardData,
   });
-  const dashboardData = await queryClient.getQueryData([
-    "admin-dashboard-data",
-  ]);
-  console.log("dashboard", dashboardData);
+  await queryClient.getQueryData(["admin-dashboard-data"]);
+  // console.log("dashboard", dashboardData);
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <AdminDashboardContent />
