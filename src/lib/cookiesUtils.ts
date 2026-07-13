@@ -1,12 +1,11 @@
-"use server";
-import { cookies } from "next/headers";
+import type { cookies } from "next/headers";
 
-export const setCookie = async (
+export const setCookie = (
+  cookieStore: Awaited<ReturnType<typeof cookies>>,
   name: string,
   value: string,
   maxAgeInSeconds: number,
 ) => {
-  const cookieStore = await cookies();
   cookieStore.set(name, value, {
     httpOnly: true,
     secure: true,
@@ -15,11 +14,17 @@ export const setCookie = async (
     maxAge: maxAgeInSeconds,
   });
 };
-export const getCookie = async (name: string) => {
-  const cookieStore = await cookies();
+
+export const getCookie = (
+  cookieStore: Awaited<ReturnType<typeof cookies>>,
+  name: string,
+) => {
   return cookieStore.get(name)?.value;
 };
-export const deleteCookie = async (name: string) => {
-  const cookieStore = await cookies();
+
+export const deleteCookie = (
+  cookieStore: Awaited<ReturnType<typeof cookies>>,
+  name: string,
+) => {
   cookieStore.delete(name);
 };
