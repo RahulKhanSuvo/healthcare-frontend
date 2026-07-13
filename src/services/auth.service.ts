@@ -12,12 +12,14 @@ if (!BASE_API_URL) {
 export async function getNewRefreshToken(
   refreshToken: string,
 ): Promise<boolean> {
+  const cookieStore = await cookies();
+  const oldSessionToken = cookieStore.get("better-auth.session_token")?.value;
   try {
     const response = await fetch(`${BASE_API_URL}/auth/refresh-token`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Cookie: `refreshToken=${refreshToken}`,
+        Cookie: `refreshToken=${refreshToken}; better-auth.session_token=${oldSessionToken}`,
       },
     });
     if (!response.ok) {
