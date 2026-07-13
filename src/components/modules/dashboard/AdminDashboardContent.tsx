@@ -1,4 +1,6 @@
 "use client";
+import ApplicationPieChart from "@/components/shared/ApplicationPieChart";
+import AppointmentBarChart from "@/components/shared/AppointmentBarChart";
 import { StatsCard } from "@/components/shared/StatsCard";
 import { getDashboardData } from "@/services/dashboard.service";
 import { useQuery } from "@tanstack/react-query";
@@ -20,6 +22,8 @@ const AdminDashboardContent = () => {
         iconName={"User"}
         description={"Total number of patients"}
       />
+      <AppointmentBarChart data={data?.barChartData ?? []} />
+      <ApplicationPieChart data={data?.pieChartData ?? []} />
     </div>
   );
 };
