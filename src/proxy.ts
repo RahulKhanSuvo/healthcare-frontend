@@ -54,7 +54,7 @@ export async function proxy(request: NextRequest) {
     if (
       isValidAccessToken &&
       refreshToken &&
-      (await isTokenExpiringSoon(accessToken as string))
+      isTokenExpiringSoon(accessToken as string)
     ) {
       const requestHeaders = new Headers(request.headers);
       const response = NextResponse.next({
