@@ -1,11 +1,12 @@
-import type { cookies } from "next/headers";
+import { cookies } from "next/headers";
 
-export const setCookie = (
-  cookieStore: Awaited<ReturnType<typeof cookies>>,
+export const setCookie = async (
   name: string,
   value: string,
   maxAgeInSeconds: number,
 ) => {
+  const cookieStore = await cookies();
+
   cookieStore.set(name, value, {
     httpOnly: true,
     secure: true,
@@ -15,16 +16,12 @@ export const setCookie = (
   });
 };
 
-export const getCookie = (
-  cookieStore: Awaited<ReturnType<typeof cookies>>,
-  name: string,
-) => {
+export const getCookie = async (name: string) => {
+  const cookieStore = await cookies();
   return cookieStore.get(name)?.value;
 };
 
-export const deleteCookie = (
-  cookieStore: Awaited<ReturnType<typeof cookies>>,
-  name: string,
-) => {
+export const deleteCookie = async (name: string) => {
+  const cookieStore = await cookies();
   cookieStore.delete(name);
 };
