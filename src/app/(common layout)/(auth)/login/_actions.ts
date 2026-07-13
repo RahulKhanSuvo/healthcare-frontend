@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 import {
   getDefaultDashboardRoute,
@@ -30,13 +31,11 @@ export const loginAction = async (
       parsedPayload.data,
     );
     const { accessToken, refreshToken, token, user } = response.data;
-    const { role, emailVerified, needPasswordChange, email } = user;
+    const { role, needPasswordChange, email } = user;
     await setTokenInCookies("accessToken", accessToken);
     await setTokenInCookies("refreshToken", refreshToken);
     await setTokenInCookies("batter-auth.session_token", token);
-    if (!emailVerified) {
-      redirect("/verify-email");
-    } else if (needPasswordChange) {
+    if (needPasswordChange) {
       redirect(`/reset-password?email=${email}`);
     } else {
       const targetPath =
@@ -45,7 +44,7 @@ export const loginAction = async (
           : getDefaultDashboardRoute(role as UserRole);
       redirect(targetPath);
     }
-  } catch (error) {
+  } catch (error: any) {
     if (
       error &&
       typeof error === "object" &&
@@ -54,6 +53,13 @@ export const loginAction = async (
       error.digest.startsWith("NEXT_REDIRECT")
     ) {
       throw error;
+    }
+    if (
+      error &&
+      error.response &&
+      error.response.data.message === "Email not verified"
+    ) {
+      redirect(`/verify-email?email=${payload.email}`);
     }
     return {
       success: false,
