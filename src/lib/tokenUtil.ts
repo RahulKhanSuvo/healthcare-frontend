@@ -1,4 +1,3 @@
-import type { cookies } from "next/headers";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { setCookie } from "./cookiesUtils";
 
@@ -22,8 +21,7 @@ const getTokenSecondRemaining = (token: string): number => {
   }
 };
 
-export const setTokenInCookies = (
-  cookieStore: Awaited<ReturnType<typeof cookies>>,
+export const setTokenInCookies = async (
   name: string,
   token: string,
   fallback = 60 * 60 * 24,
@@ -32,7 +30,7 @@ export const setTokenInCookies = (
   if (name !== "better-auth.session_token") {
     maxAgeSeconds = getTokenSecondRemaining(token);
   }
-  setCookie(cookieStore, name, token, maxAgeSeconds ? maxAgeSeconds : fallback);
+  await setCookie(name, token, maxAgeSeconds ? maxAgeSeconds : fallback);
 };
 
 export function isTokenExpiringSoon(
