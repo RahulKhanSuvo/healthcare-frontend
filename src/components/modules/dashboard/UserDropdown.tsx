@@ -1,11 +1,18 @@
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { UserInfo } from "@/types/user.types"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { UserInfo } from "@/types/user.types";
 
-const UserDropdown = ({userInfo}: {userInfo: UserInfo}) => {
+const UserDropdown = ({ userInfo }: { userInfo: UserInfo }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="size-6 rounded-full border flex  items-center">
-        <span className="text-center">{userInfo.name.charAt(0).toUpperCase()}</span>
+        <span className="text-center">
+          {userInfo.name.charAt(0).toUpperCase()}
+        </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
@@ -15,8 +22,8 @@ const UserDropdown = ({userInfo}: {userInfo: UserInfo}) => {
           <span>{userInfo.role}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
-   </DropdownMenu>
-  )
-}
+    </DropdownMenu>
+  );
+};
 
-export default UserDropdown
+export default UserDropdown;
