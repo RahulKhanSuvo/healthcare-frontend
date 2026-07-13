@@ -32,13 +32,13 @@ export async function getNewRefreshToken(
       token: sessionToken,
     } = data;
     if (newAccessToken) {
-      setTokenInCookies("better-auth.session_token", sessionToken);
+      setTokenInCookies(cookieStore, "better-auth.session_token", sessionToken);
     }
     if (newRefreshToken) {
-      setTokenInCookies("refreshToken", newRefreshToken);
+      setTokenInCookies(cookieStore, "refreshToken", newRefreshToken);
     }
     if (newAccessToken) {
-      setTokenInCookies("accessToken", newAccessToken);
+      setTokenInCookies(cookieStore, "accessToken", newAccessToken);
     }
 
     return true;
