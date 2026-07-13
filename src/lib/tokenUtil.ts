@@ -1,3 +1,5 @@
+"use server";
+
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { setCookie } from "./cookiesUtils";
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
