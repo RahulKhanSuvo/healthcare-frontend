@@ -81,7 +81,12 @@ export async function proxy(request: NextRequest) {
     }
 
     // rule:1 if user is login but try to access to auth route
-    if (isAuth && isValidAccessToken) {
+    if (
+      isAuth &&
+      isValidAccessToken &&
+      pathname !== "/verify-email" &&
+      pathname !== "/reset-password"
+    ) {
       return NextResponse.redirect(
         new URL(getDefaultDashboardRoute(userRole), request.url),
       );
@@ -119,6 +124,7 @@ export async function proxy(request: NextRequest) {
     // enforce user to stay in reset password if need password change
     if (accessToken) {
       const userInfo = await getUserInfo();
+      // console.log("useinf", userInfo);
       // if emailVerified is false, redirect to verify email
       if (userInfo?.emailVerified === false) {
         if (pathname !== "/verify-email") {
