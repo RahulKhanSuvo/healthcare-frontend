@@ -3,8 +3,8 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { getDoctors } from "./_actions";
 import DoctorList from "@/components/modules/consultation/DoctorList";
+import { getDoctors } from "@/services/doctor.service";
 
 async function ConsultationPage() {
   const queryClient = new QueryClient();
