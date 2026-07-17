@@ -27,13 +27,13 @@ export async function proxy(request: NextRequest) {
     const decodedAccessToken = accessToken
       ? jwtUtils.verifyToken(
           accessToken,
-          process.env.ACCESS_TOKEN_SECRET as string,
+          process.env.JWT_ACCESS_SECRET as string,
         ).data
       : null;
     const isValidAccessToken = accessToken
       ? jwtUtils.verifyToken(
           accessToken,
-          process.env.ACCESS_TOKEN_SECRET as string,
+          process.env.JWT_ACCESS_SECRET as string,
         ).success
       : false;
 
