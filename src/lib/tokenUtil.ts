@@ -2,12 +2,14 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { setCookie } from "./cookiesUtils";
 
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
+const JWT_REFRESH_SECRET = process.env.REFRESH_TOKEN_SECRET;
 
-const getTokenSecondRemaining = (token: string): number => {
+const getTokenSecondRemaining = (token: string, secret?: string): number => {
   if (!token || token === null) return 0;
+  const resolvedSecret = secret ?? JWT_ACCESS_SECRET;
   try {
-    const tokenPayload = JWT_ACCESS_SECRET
-      ? (jwt.verify(token, JWT_ACCESS_SECRET) as JwtPayload)
+    const tokenPayload = resolvedSecret
+      ? (jwt.verify(token, resolvedSecret) as JwtPayload)
       : (jwt.decode(token) as JwtPayload);
     if (!tokenPayload || !tokenPayload.exp) {
       return 0;
@@ -21,6 +23,11 @@ const getTokenSecondRemaining = (token: string): number => {
   }
 };
 
+const getSecretForToken = (name: string): string | undefined => {
+  if (name === "refreshToken") return JWT_REFRESH_SECRET;
+  return JWT_ACCESS_SECRET;
+};
+
 export const setTokenInCookies = async (
   name: string,
   token: string,
@@ -28,7 +35,7 @@ export const setTokenInCookies = async (
 ) => {
   let maxAgeSeconds = 0;
   if (name !== "better-auth.session_token") {
-    maxAgeSeconds = getTokenSecondRemaining(token);
+    maxAgeSeconds = getTokenSecondRemaining(token, getSecretForToken(name));
   }
   await setCookie(name, token, maxAgeSeconds ? maxAgeSeconds : fallback);
 };
