@@ -1,10 +1,5 @@
 "use client";
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { getDoctors } from "@/services/doctor.service";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -15,9 +10,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { IDoctor } from "@/types/doctors.type";
 
 const DoctorsTable = () => {
-  const doctorColums = [
+  const doctorColums: ColumnDef<IDoctor>[] = [
     { accessorKey: "name", header: "Name" },
     { accessorKey: "specialization", header: "Specialization" },
     { accessorKey: "experience", header: "Experience" },
