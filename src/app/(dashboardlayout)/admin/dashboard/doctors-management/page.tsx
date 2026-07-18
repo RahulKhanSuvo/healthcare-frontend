@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-query";
 
 const DoctorsManagementPage = async () => {
+
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["doctors"],
