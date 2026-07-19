@@ -27,14 +27,8 @@ function getQueryClient() {
   return browserQueryClient;
 }
 
-export default function QueryProviders({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function QueryProviders({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
 
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }
