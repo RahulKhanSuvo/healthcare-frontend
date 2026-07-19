@@ -11,17 +11,17 @@ interface StatsCardProps {
   className?: string;
 }
 
-export const StatsCard = ({ title, value, iconName, description,className }: StatsCardProps) => {
+export const StatsCard = ({ title, value, iconName, description, className }: StatsCardProps) => {
   return (
     <Card className={cn("hover:shadow-md transition-shadow", className)}>
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="">{title}</CardTitle>
-        <div>{ createElement(getIconComponent(iconName), { className: "w-6 h-6" })}</div>
+        <div>{createElement(getIconComponent(iconName), { className: "w-6 h-6" })}</div>
       </CardHeader>
       <CardContent>
         <div>{value}</div>
-        { description && <p>{description}</p>}
+        {description && <p>{description}</p>}
       </CardContent>
     </Card>
-  )
-}
+  );
+};
