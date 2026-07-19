@@ -1,11 +1,11 @@
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 interface DataTableAction<TData> {
   onView?: (data: TData) => void;
   onEdit?: (data: TData) => void;
   onDelete?: (data: TData) => void;
 }
 interface TableDataProps<TData> {
-  data: TData;
+  data: TData[];
   columns: ColumnDef<TData>[];
   actions?: React.ReactNode;
   emptyMessage?: string;
@@ -18,6 +18,21 @@ const TableData = <TData,>({
   emptyMessage,
   isLoading,
 }: TableDataProps<TData>) => {
+  const tableColums = actions
+    ? [
+        ...columns,
+        {
+          id: "actions",
+          header: "Actions",
+          cell: () => actions,
+        } as ColumnDef<TData>,
+      ]
+    : columns;
+  const table = useReactTable({
+    data,
+    columns: tableColums,
+    getCoreRowModel: getCoreRowModel(),
+  });
   return <div></div>;
 };
 export default TableData;
