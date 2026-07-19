@@ -4,8 +4,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ColumnDef, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { MoreHorizontal, SplinePointer } from "lucide-react";
 interface DataTableAction<TData> {
   onView?: (data: TData) => void;
   onEdit?: (data: TData) => void;
@@ -31,7 +39,7 @@ const TableData = <TData,>({
         {
           id: "actions",
           header: "Actions",
-          cell: ({ row }: { row: { original: TData } }) => {
+          cell: ({ row }) => {
             const rowData = row.original;
             return (
               <DropdownMenu>
@@ -62,11 +70,47 @@ const TableData = <TData,>({
         } as ColumnDef<TData>,
       ]
     : columns;
-  const table = useReactTable({
+  const { getHeaderGroups, getRowModel } = useReactTable({
     data,
     columns: tableColums,
     getCoreRowModel: getCoreRowModel(),
   });
-  return <div></div>;
+  return (
+    <div className="relative">
+      {isLoading && (
+        <div className="absolute inset-0 bg-white/50">
+          <div className="flex justify-center items-center h-full">
+            <SplinePointer className="animate-spin" />
+          </div>
+        </div>
+      )}
+      <div>
+        <Table>
+          <TableHeader>
+            {getHeaderGroups().map((hg) => (
+              <TableRow key={hg.id}>
+                {hg.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {getRowModel().rows.map((row) => (
+              <TableRow key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
 };
 export default TableData;
