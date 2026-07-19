@@ -8,8 +8,16 @@ interface TableDataProps<TData> {
   data: TData;
   columns: ColumnDef<TData>[];
   actions?: React.ReactNode;
+  emptyMessage?: string;
+  isLoading?: boolean;
 }
-const TableData = () => {
-  return <>children</>;
+const TableData = <TData,>({
+  data,
+  columns,
+  actions,
+  emptyMessage,
+  isLoading,
+}: TableDataProps<TData>) => {
+  return <div></div>;
 };
 export default TableData;
