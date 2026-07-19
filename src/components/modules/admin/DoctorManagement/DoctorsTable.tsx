@@ -29,7 +29,8 @@ const DoctorsTable = () => {
     columns: doctorColums,
     getCoreRowModel: getCoreRowModel(),
   });
-
+  getCoreRowModel();
+  getRowModel();
   return (
     <Table>
       <TableHeader>
