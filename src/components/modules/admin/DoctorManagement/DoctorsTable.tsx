@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { IDoctor } from "@/types/doctors.type";
+import TableData from "@/components/shared/table/TableData";
 
 const DoctorsTable = () => {
   const doctorColums: ColumnDef<IDoctor>[] = [
@@ -29,34 +30,9 @@ const DoctorsTable = () => {
     columns: doctorColums,
     getCoreRowModel: getCoreRowModel(),
   });
-  getCoreRowModel();
+  getHeaderGroups();
   getRowModel();
-  return (
-    <Table>
-      <TableHeader>
-        {getHeaderGroups().map((hg) => (
-          <TableRow key={hg.id}>
-            {hg.headers.map((header) => (
-              <TableHead key={header.id}>
-                {flexRender(header.column.columnDef.header, header.getContext())}
-              </TableHead>
-            ))}
-          </TableRow>
-        ))}
-      </TableHeader>
-      <TableBody>
-        {getRowModel().rows.map((row) => (
-          <TableRow key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <TableCell key={cell.id}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </TableCell>
-            ))}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  );
+  return <TableData data={doctorDataResponse ?? []} columns={doctorColums}></TableData>;
 };
 
 export default DoctorsTable;
