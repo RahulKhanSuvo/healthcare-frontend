@@ -17,7 +17,7 @@ const DoctorsTable = () => {
     queryFn: getDoctors,
   });
   console.log(doctorDataResponse);
-  return <TableData data={doctorDataResponse ?? []} columns={doctorColums}></TableData>;
+  return <TableData data={doctorDataResponse ?? []} columns={doctorColums} />;
 };
 
 export default DoctorsTable;
