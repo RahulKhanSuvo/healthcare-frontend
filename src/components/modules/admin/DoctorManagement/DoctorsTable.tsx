@@ -16,8 +16,26 @@ const DoctorsTable = () => {
     queryKey: ["doctors"],
     queryFn: getDoctors,
   });
-  console.log(doctorDataResponse);
-  return <TableData data={doctorDataResponse ?? []} columns={doctorColums} />;
+  const handleView = (doctor: IDoctor) => {
+    console.log(doctor);
+  };
+  const handleEdit = (doctor: IDoctor) => {
+    console.log(doctor);
+  };
+  const handleDelete = (doctor: IDoctor) => {
+    console.log(doctor);
+  };
+  return (
+    <TableData
+      data={doctorDataResponse ?? []}
+      columns={doctorColums}
+      actions={{
+        onView: handleView,
+        onEdit: handleEdit,
+        onDelete: handleDelete,
+      }}
+    />
+  );
 };
 
 export default DoctorsTable;
